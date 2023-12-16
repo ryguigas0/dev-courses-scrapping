@@ -1,7 +1,6 @@
-from .extract import scrape_course_page
+from .extract_course import scrap_course_page
+from .find_courses import scrap_course_urls
 
 
-def scrape():
-    courses_url = ["https://www.udemy.com/course/100-days-of-code/"]
-
-    print(list(map(scrape_course_page, courses_url)))
+def scrap():
+    print(list(map(scrap_course_page, scrap_course_urls())))

@@ -7,7 +7,7 @@ UDEMY_DATA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 # UDEMY_CONTENT_XPATH = '//*[@id="main-content-anchor"]/div[5]/div/div[4]/div/div[2]/div/div/div/ul/li/div'
 
 
-def scrape_course_page(course_url):
+def scrap_course_page(course_url):
     udemy_data_json = json.loads(
         get_element_from_page(course_url, UDEMY_DATA_XPATH).div["data-component-props"]
     )["serverSideProps"]
