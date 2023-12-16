@@ -1,2 +1,3 @@
-# dev-cource-scrapping
-Udemy and YouTube programming course webscrapping and API
+# dev-course-scrapping
+
+Udemy and YouTube programming courses webscrapping and API
