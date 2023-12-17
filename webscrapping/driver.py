@@ -7,7 +7,25 @@ options = webdriver.FirefoxOptions()
 options.add_argument("-headless")
 
 
-def get_elements_from_page(url, xpath, wait=3):
+def create_driver(url=None, load_time=3):
+    driver = webdriver.Firefox(options=options)
+
+    if not url is None:
+        driver.get(url)
+        time.sleep(load_time)
+
+    return driver
+
+
+def find_element_by_xpath(driver, xpath, single=True):
+    return (
+        driver.find_element(By.XPATH, xpath)
+        if single
+        else driver.find_elements(By.XPATH, xpath)
+    )
+
+
+def get_soups_from_page(url, xpath, wait=3):
     driver = webdriver.Firefox(options=options)
 
     driver.get(url)
@@ -29,7 +47,7 @@ def get_elements_from_page(url, xpath, wait=3):
     return soups
 
 
-def get_element_from_page(url, xpath, wait=3):
+def get_soup_from_page(url, xpath, wait=3):
     driver = webdriver.Firefox(options=options)
 
     driver.get(url)

@@ -1,5 +1,5 @@
 import json
-from ..driver import get_element_from_page, get_elements_from_page
+from ..driver import get_soup_from_page
 
 
 UDEMY_DATA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
@@ -9,7 +9,7 @@ UDEMY_DATA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 
 def scrap_course_page(course_url):
     udemy_data_json = json.loads(
-        get_element_from_page(course_url, UDEMY_DATA_XPATH).div["data-component-props"]
+        get_soup_from_page(course_url, UDEMY_DATA_XPATH).div["data-component-props"]
     )["serverSideProps"]
 
     # # Backup json for development
