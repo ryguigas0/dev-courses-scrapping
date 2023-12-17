@@ -8,6 +8,7 @@ UDEMY_DATA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 
 
 def scrap_course_page(course_url):
+    print("Scrapping course", course_url)
     udemy_data_json = json.loads(
         get_soup_from_page(course_url, UDEMY_DATA_XPATH).div["data-component-props"]
     )["serverSideProps"]
@@ -15,6 +16,8 @@ def scrap_course_page(course_url):
     # # Backup json for development
     # with open(f"{udemy_data_json['course']['id']}.json", "w") as backup:
     #     json.dump(udemy_data_json, backup, sort_keys=True, indent=4)
+
+    print("Finished scrapping course", course_url)
 
     return course_json2dict(udemy_data_json)
 

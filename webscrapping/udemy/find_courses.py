@@ -1,8 +1,5 @@
 import time
-
-from bs4 import BeautifulSoup
 from ..driver import create_driver, find_element_by_xpath
-from selenium.webdriver.common.by import By
 
 # Udemy does not load categories menu for webscrapping
 # 0 => URL, 1 => TOPIC PT-BR, 2 => TOPIC EN
@@ -245,28 +242,37 @@ UDEMY_TOPICS = [
 ]
 
 COURSE_ANCHORS_XPATH = "/html/body/div/div/main/main/div/div/div/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div/h3/a"
+WAIT_TIME = 5 * 60
 
 
 def scrap_course_urls():
+    print("========> Gattering courses urls...")
     courses_urls = []
 
     for t in UDEMY_TOPICS:
+        print("====> Scrapping topic", t[2])
         driver = create_driver()
 
         driver.get(t[0])
 
-        time.sleep(30)
+        print("Waiting load...")
+        time.sleep(WAIT_TIME)
 
-        courses_urls.extend(
-            list(
-                map(
-                    lambda el: el.get_attribute("href"),
-                    find_element_by_xpath(driver, COURSE_ANCHORS_XPATH, False),
-                )
+        print("Scrapping!!")
+        courses_urls_found = list(
+            map(
+                lambda el: el.get_attribute("href"),
+                find_element_by_xpath(driver, COURSE_ANCHORS_XPATH, False),
             )
         )
 
+        print(f"====> Yielded {len(courses_urls_found)} courses!")
+
+        courses_urls.extend(courses_urls)
+
         driver.quit()
+
+    print("========> Finished courses urls...")
 
     # FIXME: Remove this code when figured out how to scrape Udemy topics
     if len(courses_urls) == 0:
