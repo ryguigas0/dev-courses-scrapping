@@ -1,5 +1,8 @@
 import time
 from ..driver import create_driver, find_element_by_xpath
+import logging
+
+logger = logging.getLogger("webscrapping")
 
 # Udemy does not load categories menu for webscrapping
 # 0 => URL, 1 => TOPIC PT-BR, 2 => TOPIC EN
@@ -242,23 +245,25 @@ UDEMY_TOPICS = [
 ]
 
 COURSE_ANCHORS_XPATH = "/html/body/div/div/main/main/div/div/div/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div/h3/a"
-WAIT_TIME = 5 * 60
+WAIT_TIME = 15 * 60
 
 
 def scrap_course_urls():
-    print("========> Gattering courses urls...")
+    logger.info("Gattering courses urls")
     courses_urls = []
 
     for t in UDEMY_TOPICS:
-        print("====> Scrapping topic", t[2])
+        logger.info(f"Scrapping topic '{t[2]}'...")
+        logger.info("Waiting topic load...")
+        time.sleep(WAIT_TIME)
+
         driver = create_driver()
 
         driver.get(t[0])
 
-        print("Waiting load...")
-        time.sleep(WAIT_TIME)
+        time.sleep(3)
 
-        print("Scrapping!!")
+        logger.info("Scrapping...")
         courses_urls_found = list(
             map(
                 lambda el: el.get_attribute("href"),
@@ -266,13 +271,13 @@ def scrap_course_urls():
             )
         )
 
-        print(f"====> Yielded {len(courses_urls_found)} courses!")
+        logger.info(f"Yielded {len(courses_urls_found)} courses!")
 
         courses_urls.extend(courses_urls)
 
         driver.quit()
 
-    print("========> Finished courses urls...")
+    logger.info("Finished courses urls")
 
     # FIXME: Remove this code when figured out how to scrape Udemy topics
     if len(courses_urls) == 0:
