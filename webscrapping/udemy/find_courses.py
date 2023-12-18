@@ -1,5 +1,5 @@
 import time
-from ..driver import create_driver, find_element_by_xpath
+from ..driver import generate_driver, find_element
 import logging
 
 logger = logging.getLogger("webscrapping")
@@ -245,37 +245,42 @@ UDEMY_TOPICS = [
 ]
 
 COURSE_ANCHORS_XPATH = "/html/body/div/div/main/main/div/div/div/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div/h3/a"
-WAIT_TIME = 15 * 60
+# WAIT_TIME = 60 * 60
+WAIT_TIME = 3
 
 
 def scrap_course_urls():
     logger.info("Gattering courses urls")
     courses_urls = []
 
-    for t in UDEMY_TOPICS:
-        logger.info(f"Scrapping topic '{t[2]}'...")
-        logger.info("Waiting topic load...")
-        time.sleep(WAIT_TIME)
+    t = UDEMY_TOPICS[0]
 
-        driver = create_driver()
+    logger.info(f"Scrapping topic '{t[2]}'...")
 
-        driver.get(t[0])
+    logger.info(f"Waiting {WAIT_TIME}s before topic load...")
 
-        time.sleep(3)
+    time.sleep(WAIT_TIME)
 
-        logger.info("Scrapping...")
-        courses_urls_found = list(
-            map(
-                lambda el: el.get_attribute("href"),
-                find_element_by_xpath(driver, COURSE_ANCHORS_XPATH, False),
-            )
+    driver = generate_driver()
+
+    logger.info(f"Loading topic...")
+
+    course_anchors = find_element(
+        driver, t[0], COURSE_ANCHORS_XPATH, single=False, screenshot=True
+    )
+
+    courses_urls_found = list(
+        map(
+            lambda el: el.get_attribute("href"),
+            course_anchors,
         )
+    )
 
-        logger.info(f"Yielded {len(courses_urls_found)} courses!")
+    logger.info(f"Yielded {len(courses_urls_found)} courses!")
 
-        courses_urls.extend(courses_urls)
+    courses_urls.extend(courses_urls)
 
-        driver.quit()
+    driver.quit()
 
     logger.info("Finished courses urls")
 

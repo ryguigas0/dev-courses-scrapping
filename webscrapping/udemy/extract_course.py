@@ -1,5 +1,5 @@
 import json
-from ..driver import get_soup_from_page
+from ..driver import generate_driver, soupfy, find_element
 import logging
 
 logger = logging.getLogger("webscrapping")
@@ -11,9 +11,16 @@ UDEMY_DATA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 
 def scrap_course_page(course_url):
     logger.info(f"Scrapping course {course_url}")
-    udemy_data_json = json.loads(
-        get_soup_from_page(course_url, UDEMY_DATA_XPATH).div["data-component-props"]
-    )["serverSideProps"]
+
+    driver = generate_driver()
+
+    udemy_schema = soupfy(find_element(driver, course_url, UDEMY_DATA_XPATH)).div[
+        "data-component-props"
+    ]
+
+    driver.quit()
+
+    udemy_data_json = json.loads(udemy_schema)["serverSideProps"]
 
     # # Backup json for development
     # with open(f"{udemy_data_json['course']['id']}.json", "w") as backup:
