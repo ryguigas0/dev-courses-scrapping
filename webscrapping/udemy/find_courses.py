@@ -1,6 +1,7 @@
 import time
-from ..driver import generate_driver, find_element
+from ..driver import generate_driver, find_element_by_selector
 import logging
+import random
 
 logger = logging.getLogger("webscrapping")
 
@@ -244,9 +245,7 @@ UDEMY_TOPICS = [
     ],
 ]
 
-COURSE_ANCHORS_XPATH = "/html/body/div/div/main/main/div/div/div/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div/h3/a"
-# WAIT_TIME = 60 * 60
-WAIT_TIME = 3
+COURSE_ANCHORS_SELECTOR = 'a[href^="/course/"]'
 
 
 def scrap_course_urls():
@@ -257,16 +256,18 @@ def scrap_course_urls():
 
     logger.info(f"Scrapping topic '{t[2]}'...")
 
-    logger.info(f"Waiting {WAIT_TIME}s before topic load...")
+    wait_time = random.randint(3, 3600)
 
-    time.sleep(WAIT_TIME)
+    logger.info(f"Waiting {wait_time}s before topic load...")
+
+    time.sleep(wait_time)
 
     driver = generate_driver()
 
     logger.info(f"Loading topic...")
 
-    course_anchors = find_element(
-        driver, t[0], COURSE_ANCHORS_XPATH, single=False, screenshot=True
+    course_anchors = find_element_by_selector(
+        driver, t[0], COURSE_ANCHORS_SELECTOR, single=False, screenshot=True
     )
 
     courses_urls_found = list(
@@ -283,9 +284,5 @@ def scrap_course_urls():
     driver.quit()
 
     logger.info("Finished courses urls")
-
-    # FIXME: Remove this code when figured out how to scrape Udemy topics
-    if len(courses_urls) == 0:
-        return ["https://www.udemy.com/course/100-days-of-code/"]
 
     return courses_urls

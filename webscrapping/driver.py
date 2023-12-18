@@ -12,29 +12,64 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 logger = logging.getLogger("webscrapping")
 
+USER_AGENTS = [
+    # windows 10 edge
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Sec-Ch-UA": 'Sec-Ch-UA: "Microsoft Edge";v="93", " Not A Brand";v="99"',
+    },
+    # chromeOS chrome
+    {
+        "User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36",
+        "Sec-Ch-Ua-Platform": '"Chrome OS"',
+        "Sec-Ch-UA": '"Google Chrome";v="120", "Chromium";v="120", ";Not A Brand";v="99"',
+    },
+    # macOS safari
+    {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
+        "Sec-Ch-Ua-Platform": '"macOS"',
+        "Sec-Ch-UA": 'Sec-Ch-UA: "Safari";v="15", " Not A Brand";v="99"',
+    },
+    # Windows 7 chrome
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Sec-Ch-UA": '"Google Chrome";v="91", "Chromium";v="91", ";Not A Brand";v="99"',
+    },
+    # Linux firefox
+    {
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
+        "Sec-Ch-Ua-Platform": '"Linux"',
+        "Sec-Ch-UA": '"Google Chrome";v="91", "Chromium";v="91", ";Not A Brand";v="99"',
+    },
+]
 
-def header_inteceptor(request):
-    headers = {
+
+def generate_driver_headers():
+    curr_device_headers = random_from_list(USER_AGENTS)
+    logger.info(f'using agent {curr_device_headers["Sec-Ch-Ua-Platform"]}')
+
+    default_headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US,en",
-        "Host": "httpbin.org",
-        "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Brave";v="120"',
+        # "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Brave";v="120"',
         "Sec-Ch-Ua-Mobile": "?0",
-        "Sec-Ch-Ua-Platform": '"Windows"',
         "Sec-Fetch-Dest": "document",
         "Sec-Fetch-Mode": "navigate",
         "Sec-Fetch-Site": "none",
         "Sec-Fetch-User": "?1",
         "Sec-Gpc": "1",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        # "Upgrade-Insecure-Requests": "1",
         # "X-Amzn-Trace-Id": "Root=1-658091af-0e89637646691d4a60504ea6",
     }
 
-    for key in dict.keys(headers):
-        del request.headers[key]
-        request.headers[key] = headers[key]
+    return curr_device_headers**default_headers
+
+
+def header_inteceptor(request):
+    request.headers.update(generate_driver_headers())
 
 
 def gen_firefox_driver():
@@ -54,18 +89,32 @@ def gen_chrome_driver():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
 
-    service = Service(ChromeDriverManager.install())
-
-    return webdriver.Chrome(options=options, service=service)
+    return webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
 def generate_driver():
-    driver_generators = [gen_firefox_driver, gen_chrome_driver]
-    index_chosen = random.randint(0, len(driver_generators) - 1)
-    return driver_generators[index_chosen]()
+    driver_generators = [gen_chrome_driver, gen_firefox_driver]
+    return random_from_list(driver_generators)()
 
 
-def find_element(driver, url, xpath, single=True, load_wait=3, screenshot=False):
+def random_from_list(list):
+    index_chosen = random.randint(0, len(list) - 1)
+    return list[index_chosen]
+
+
+def find_element_by_selector(
+    driver, url, selector, single=True, load_wait=3, screenshot=False
+):
+    find_element(driver, url, By.CSS_SELECTOR, selector, single, load_wait, screenshot)
+
+
+def find_element_by_xpath(
+    driver, url, xpath, single=True, load_wait=3, screenshot=False
+):
+    find_element(driver, url, By.XPATH, xpath, single, load_wait, screenshot)
+
+
+def find_element(driver, url, by, select_str, single, load_wait, screenshot):
     driver.get(url)
 
     logger.info(f"Loading page...")
@@ -78,12 +127,10 @@ def find_element(driver, url, xpath, single=True, load_wait=3, screenshot=False)
         else:
             logger.info(f"Screenshot error!")
 
-    logger.info("Scrapping page")
-
     if single:
-        return driver.find_element(By.XPATH, xpath)
+        return driver.find_element(by, select_str)
     else:
-        return driver.find_elements(By.XPATH, xpath)
+        return driver.find_elements(by, select_str)
 
 
 def soupfy(web_element):

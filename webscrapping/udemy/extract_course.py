@@ -1,5 +1,5 @@
 import json
-from ..driver import generate_driver, soupfy, find_element
+from ..driver import generate_driver, soupfy, find_element_by_xpath
 import logging
 
 logger = logging.getLogger("webscrapping")
@@ -14,9 +14,9 @@ def scrap_course_page(course_url):
 
     driver = generate_driver()
 
-    udemy_schema = soupfy(find_element(driver, course_url, UDEMY_DATA_XPATH)).div[
-        "data-component-props"
-    ]
+    udemy_schema = soupfy(
+        find_element_by_xpath(driver, course_url, UDEMY_DATA_XPATH)
+    ).div["data-component-props"]
 
     driver.quit()
 
