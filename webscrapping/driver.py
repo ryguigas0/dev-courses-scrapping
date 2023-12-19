@@ -1,6 +1,8 @@
 import time
 import random
 import logging
+from .proxy import proxy_list
+from selenium.webdriver.common.proxy import Proxy, ProxyType
 from datetime import datetime
 from bs4 import BeautifulSoup
 from seleniumwire import webdriver
@@ -17,31 +19,31 @@ USER_AGENTS = [
     {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
         "Sec-Ch-Ua-Platform": '"Windows"',
-        "Sec-Ch-UA": 'Sec-Ch-UA: "Microsoft Edge";v="93", " Not A Brand";v="99"',
+        "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Microsoft Edge";v="120"',
     },
     # chromeOS chrome
     {
         "User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36",
         "Sec-Ch-Ua-Platform": '"Chrome OS"',
-        "Sec-Ch-UA": '"Google Chrome";v="120", "Chromium";v="120", ";Not A Brand";v="99"',
+        "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
     },
     # macOS safari
     {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
         "Sec-Ch-Ua-Platform": '"macOS"',
-        "Sec-Ch-UA": 'Sec-Ch-UA: "Safari";v="15", " Not A Brand";v="99"',
+        # "Sec-Ch-Ua": 'Sec-Ch-Ua: "Safari";v="15", " Not A Brand";v="99"',
     },
     # Windows 7 chrome
     {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
         "Sec-Ch-Ua-Platform": '"Windows"',
-        "Sec-Ch-UA": '"Google Chrome";v="91", "Chromium";v="91", ";Not A Brand";v="99"',
+        "Sec-Ch-Ua": '"Google Chrome";v="109", "Chromium";v="109", ";Not A Brand";v="8"',
     },
     # Linux firefox
     {
-        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0",
         "Sec-Ch-Ua-Platform": '"Linux"',
-        "Sec-Ch-UA": '"Google Chrome";v="91", "Chromium";v="91", ";Not A Brand";v="99"',
+        # "Sec-Ch-Ua": '"Google Chrome";v="120", "Chromium";v="120", ";Not A Brand";v="8"',
     },
 ]
 
@@ -72,29 +74,39 @@ def header_inteceptor(request):
     request.headers.update(generate_driver_headers())
 
 
-def gen_firefox_driver():
+def gen_firefox_driver(proxy):
     logger.info("Using firefox webdriver")
 
+    proxy = Proxy(
+        {
+            "proxyType": ProxyType.MANUAL,
+            "httpProxy": proxy,
+        }
+    )
     options = webdriver.FirefoxOptions()
     options.add_argument("-headless")
 
     service = Service(GeckoDriverManager().install())
 
-    return webdriver.Firefox(options=options, service=service)
+    return webdriver.Firefox(options=options, service=service, proxy=proxy)
 
 
-def gen_chrome_driver():
-    logger.info("Using chrome webdriver")
+def gen_chrome_driver(proxy):
+    logger.info(f"Using chrome webdriver")
 
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
+    options.add_argument("--proxy-server=%s" % proxy)
 
     return webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
 def generate_driver():
+    proxy = random_from_list(proxy_list)["URL"]
+    logger.info(f"Using proxy {proxy}")
+
     driver_generators = [gen_chrome_driver, gen_firefox_driver]
-    return random_from_list(driver_generators)()
+    return random_from_list(driver_generators)(proxy)
 
 
 def random_from_list(list):
@@ -105,13 +117,15 @@ def random_from_list(list):
 def find_element_by_selector(
     driver, url, selector, single=True, load_wait=3, screenshot=False
 ):
-    find_element(driver, url, By.CSS_SELECTOR, selector, single, load_wait, screenshot)
+    return find_element(
+        driver, url, By.CSS_SELECTOR, selector, single, load_wait, screenshot
+    )
 
 
 def find_element_by_xpath(
     driver, url, xpath, single=True, load_wait=3, screenshot=False
 ):
-    find_element(driver, url, By.XPATH, xpath, single, load_wait, screenshot)
+    return find_element(driver, url, By.XPATH, xpath, single, load_wait, screenshot)
 
 
 def find_element(driver, url, by, select_str, single, load_wait, screenshot):

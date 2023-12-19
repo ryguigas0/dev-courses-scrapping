@@ -1,0 +1,300 @@
+41.230.216.70;80;Tunisia
+50.174.41.66;80;United States
+50.204.219.229;80;United States
+107.1.93.221;80;United States
+50.174.145.12;80;United States
+50.217.226.40;80;United States
+50.206.111.91;80;United States
+96.113.159.162;80;United States
+198.49.68.80;80;United States
+50.174.145.10;80;United States
+32.223.6.94;80;United States
+50.228.141.101;80;United States
+50.168.210.235;80;United States
+178.128.113.118;23128;Singapore
+50.168.72.118;80;United States
+216.137.184.253;80;United States
+148.123.47.20;8080;Norway
+50.168.210.234;80;United States
+50.168.163.178;80;United States
+82.119.96.254;80;Slovakia
+50.228.141.100;80;United States
+50.170.90.34;80;United States
+50.204.219.230;80;United States
+50.217.226.41;80;United States
+50.228.141.96;80;United States
+50.204.190.234;80;United States
+50.207.199.83;80;United States
+50.221.74.130;80;United States
+50.207.199.85;80;United States
+50.174.7.157;80;United States
+50.173.140.138;80;United States
+50.168.163.180;80;United States
+50.170.90.26;80;United States
+107.1.93.222;80;United States
+50.171.32.224;80;United States
+47.74.152.29;8888;Singapore
+50.217.226.43;80;United States
+96.113.158.126;80;United States
+50.222.245.50;80;United States
+50.228.141.103;80;United States
+50.204.219.231;80;United States
+50.218.57.68;80;United States
+50.235.240.86;80;United States
+50.172.75.122;80;United States
+123.30.154.171;7777;Vietnam
+50.218.57.64;80;United States
+50.169.135.10;80;United States
+50.171.32.225;80;United States
+50.171.32.227;80;United States
+175.138.60.225;8765;Malaysia
+50.174.7.155;80;United States
+107.1.93.213;80;United States
+50.220.168.134;80;United States
+50.170.90.25;80;United States
+50.218.57.66;80;United States
+50.207.199.87;80;United States
+107.1.93.216;80;United States
+50.218.57.70;80;United States
+50.207.199.82;80;United States
+50.168.163.179;80;United States
+50.218.57.71;80;United States
+50.217.226.46;80;United States
+50.218.57.69;80;United States
+50.217.226.47;80;United States
+50.222.245.42;80;United States
+50.231.104.58;80;United States
+50.173.140.144;80;United States
+50.174.7.158;80;United States
+50.168.163.176;80;United States
+50.168.210.232;80;United States
+85.26.146.169;80;Russian Federation
+50.204.219.225;80;United States
+50.168.72.115;80;United States
+50.170.90.30;80;United States
+107.1.93.208;80;United States
+50.170.90.31;80;United States
+50.169.37.50;80;United States
+50.222.245.47;80;United States
+50.218.57.74;80;United States
+50.222.245.44;80;United States
+50.204.219.226;80;United States
+107.1.93.214;80;United States
+107.1.93.220;80;United States
+50.204.219.228;80;United States
+50.173.140.145;80;United States
+195.23.57.78;80;Portugal
+35.171.245.156;80;United States
+107.1.93.212;80;United States
+50.239.72.18;80;United States
+50.169.23.170;80;United States
+50.171.32.231;80;United States
+41.207.187.178;80;Togo
+107.1.93.217;80;United States
+50.174.7.162;80;United States
+107.1.93.223;80;United States
+50.174.145.13;80;United States
+50.222.245.43;80;United States
+50.168.72.122;80;United States
+50.168.72.119;80;United States
+50.168.210.238;80;United States
+112.78.165.2;8080;Indonesia
+103.154.144.204;8715;Indonesia
+103.116.82.135;8080;Indonesia
+125.229.149.169;65110;Taiwan
+195.201.230.161;3128;Germany
+36.93.3.213;63123;Indonesia
+142.93.72.28;10006;United States
+209.121.164.50;31147;Canada
+139.59.1.14;8080;India
+74.48.220.109;80;United States
+202.131.65.110;80;Hong Kong
+47.88.3.19;8080;United States
+162.243.184.21;10008;United States
+47.243.177.210;8088;Hong Kong
+142.171.88.250;7890;United States
+20.1.56.27;80;United States
+93.20.25.100;80;France
+162.248.224.103;80;United States
+162.248.225.230;80;United States
+108.170.12.12;80;United States
+158.247.222.48;63128;South Korea
+209.126.6.159;80;United States
+50.200.12.87;80;United States
+50.206.111.89;80;United States
+50.174.145.14;80;United States
+107.1.93.210;80;United States
+50.168.72.116;80;United States
+213.5.188.210;3128;Kazakhstan
+177.75.97.224;3128;Brazil
+94.74.80.88;8080;Singapore
+20.111.54.16;80;France
+209.97.150.167;3128;United States
+103.127.1.130;80;Bangladesh
+34.122.187.196;80;United States
+46.47.197.210;3128;Russian Federation
+8.219.43.134;1234;Singapore
+47.56.110.204;8989;Hong Kong
+103.174.81.66;8080;India
+20.206.106.192;80;Brazil
+0.0.0.0;80;Unknown
+50.171.152.30;80;United States
+213.33.126.130;80;Austria
+50.202.75.26;80;United States
+50.168.163.177;80;United States
+50.168.72.117;80;United States
+50.168.210.226;80;United States
+50.168.72.113;80;United States
+50.228.141.98;80;United States
+50.172.75.126;80;United States
+50.170.90.27;80;United States
+50.230.222.202;80;United States
+50.228.141.97;80;United States
+50.172.75.124;80;United States
+50.228.141.99;80;United States
+50.200.12.82;80;United States
+50.170.90.24;80;United States
+50.207.199.86;80;United States
+50.222.245.46;80;United States
+50.217.226.45;80;United States
+50.207.199.84;80;United States
+50.174.145.8;80;United States
+50.217.226.42;80;United States
+50.239.72.16;80;United States
+50.168.163.181;80;United States
+50.239.72.17;80;United States
+50.173.140.147;80;United States
+50.168.163.183;80;United States
+50.217.226.44;80;United States
+50.204.219.227;80;United States
+50.173.140.149;80;United States
+50.207.199.81;80;United States
+50.200.12.85;80;United States
+190.58.248.86;80;Trinidad and Tobago
+50.223.38.6;80;United States
+50.204.219.224;80;United States
+50.168.72.114;80;United States
+50.171.32.228;80;United States
+50.218.57.67;80;United States
+50.175.212.74;80;United States
+50.207.199.80;80;United States
+50.174.7.153;80;United States
+50.218.57.65;80;United States
+50.171.32.222;80;United States
+107.1.93.219;80;United States
+50.174.7.152;80;United States
+50.171.32.229;80;United States
+197.211.45.4;10000;Nigeria
+203.76.149.98;3281;Bangladesh
+181.78.19.250;999;Colombia
+171.227.192.8;2029;Vietnam
+187.40.1.122;128;Brazil
+75.2.116.47;80;United States
+66.191.31.158;80;United States
+167.71.5.83;3128;Netherlands
+159.65.77.168;8585;United States
+138.197.20.244;10004;United States
+159.203.61.169;8080;Canada
+66.94.127.108;30010;United States
+213.33.2.28;80;Austria
+80.120.130.231;80;Austria
+24.205.201.186;80;United States
+71.235.183.92;80;United States
+114.156.77.107;8080;Japan
+207.2.120.58;80;United States
+84.39.112.144;3128;Switzerland
+103.163.51.254;80;Bangladesh
+139.162.78.109;3128;Japan
+200.25.254.193;54240;Colombia
+50.168.163.182;80;United States
+50.231.110.26;80;United States
+50.200.12.84;80;United States
+50.171.32.226;80;United States
+50.237.207.186;80;United States
+50.221.230.186;80;United States
+50.228.141.102;80;United States
+172.108.208.74;80;United States
+50.174.145.11;80;United States
+58.234.116.197;80;South Korea
+190.199.195.44;8080;Venezuela
+138.91.159.185;80;United States
+138.68.60.8;8080;United States
+51.15.242.202;8888;France
+68.188.59.198;80;United States
+50.168.72.112;80;United States
+50.206.111.88;80;United States
+50.173.140.146;80;United States
+50.228.83.226;80;United States
+50.174.7.154;80;United States
+50.200.12.86;80;United States
+27.112.70.155;8083;Indonesia
+45.39.72.247;3128;United States
+156.239.55.115;3128;United States
+193.202.81.251;8085;Israel
+38.15.149.122;3128;United States
+45.199.137.39;3128;United States
+45.140.204.238;8085;Israel
+93.177.118.95;8085;Russian Federation
+156.239.48.138;3128;United States
+156.239.52.132;3128;United States
+83.97.118.232;8085;Russian Federation
+83.171.227.140;8085;Russian Federation
+209.127.62.217;3128;United States
+156.239.52.170;3128;United States
+192.177.158.5;3128;United States
+192.177.93.58;3128;United States
+192.177.170.99;3128;United States
+46.161.57.114;8085;Russian Federation
+45.39.72.112;3128;United States
+156.239.50.98;3128;United States
+45.39.72.42;3128;United States
+192.177.93.148;3128;United States
+38.15.149.49;3128;United States
+46.253.131.163;8085;United States
+193.203.8.103;8085;Israel
+45.39.72.133;3128;United States
+156.239.48.214;3128;United States
+94.154.113.249;8085;United States
+185.89.43.216;8085;Russian Federation
+45.199.137.143;3128;United States
+91.243.95.46;8085;Russian Federation
+97.92.111.245;443;United States
+38.15.149.225;3128;United States
+209.127.149.191;3128;United States
+192.177.93.90;3128;United States
+156.239.48.2;3128;United States
+209.127.62.246;3128;United States
+146.185.201.119;8085;Russian Federation
+156.239.53.137;3128;United States
+158.101.10.248;3128;United States
+43.153.41.35;3128;United States
+193.36.85.147;1234;Germany
+80.228.235.6;80;Germany
+107.1.93.209;80;United States
+50.172.23.10;80;United States
+80.150.50.226;80;Germany
+67.43.236.20;16829;Canada
+67.43.227.226;25639;Canada
+189.202.188.149;80;Mexico
+50.174.7.159;80;United States
+50.168.163.166;80;United States
+43.156.0.125;8888;Singapore
+133.232.82.30;80;Japan
+62.99.138.162;80;Austria
+194.182.187.78;3128;Austria
+50.174.7.156;80;United States
+67.43.227.227;4479;Canada
+50.223.38.2;80;United States
+192.177.140.190;3128;United States
+156.239.53.47;3128;United States
+192.177.166.100;3128;United States
+193.202.15.107;8085;Israel
+156.239.49.143;3128;United States
+192.210.159.43;3128;United States
+192.177.166.41;3128;United States
+45.39.72.197;3128;United States
+193.202.83.55;8085;Israel
+156.239.48.250;3128;United States
+194.99.24.227;8085;France
+156.239.54.170;3128;United States
+156.239.53.11;3128;United States

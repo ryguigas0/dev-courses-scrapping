@@ -250,13 +250,14 @@ COURSE_ANCHORS_SELECTOR = 'a[href^="/course/"]'
 
 def scrap_course_urls():
     logger.info("Gattering courses urls")
+    random.shuffle(UDEMY_TOPICS)
     courses_urls = []
 
     t = UDEMY_TOPICS[0]
 
     logger.info(f"Scrapping topic '{t[2]}'...")
 
-    wait_time = random.randint(3, 30 * 60)
+    wait_time = random.randint(3, 3 * 60)
 
     logger.info(f"Waiting {wait_time}s before topic load...")
 
@@ -267,7 +268,12 @@ def scrap_course_urls():
     logger.info(f"Loading topic...")
 
     course_anchors = find_element_by_selector(
-        driver, t[0], COURSE_ANCHORS_SELECTOR, single=False, screenshot=True
+        driver,
+        t[0],
+        COURSE_ANCHORS_SELECTOR,
+        single=False,
+        screenshot=True,
+        load_wait=8,
     )
 
     courses_urls_found = list(

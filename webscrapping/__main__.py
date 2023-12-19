@@ -1,4 +1,3 @@
-from .udemy import scrap as udemy_scrapping
 import logging
 
 logger = logging.getLogger("webscrapping")
@@ -17,5 +16,7 @@ fh.setFormatter(fmt)
 
 logger.addHandler(ch)
 logger.addHandler(fh)
+
+from .udemy import scrap as udemy_scrapping
 
 udemy_scrapping()
