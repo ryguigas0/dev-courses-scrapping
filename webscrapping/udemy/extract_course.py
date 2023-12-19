@@ -1,10 +1,12 @@
 import json
 from ..driver import generate_driver, soupfy, find_element_by_xpath
 import logging
+import time
+import random
+from ..config import WAIT_TIME, UDEMY_COURSE_SCHEMA_XPATH
 
 logger = logging.getLogger("webscrapping")
 
-UDEMY_DATA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 # Udemy doesent load course content when scrapping
 # UDEMY_CONTENT_XPATH = '//*[@id="main-content-anchor"]/div[5]/div/div[4]/div/div[2]/div/div/div/ul/li/div'
 
@@ -12,10 +14,18 @@ UDEMY_DATA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 def scrap_course_page(course_url):
     logger.info(f"Scrapping course {course_url}")
 
+    wait = random.randint(WAIT_TIME, WAIT_TIME + 30)
+
+    logger.info(f"Waiting {wait}s before course load...")
+
+    time.sleep(wait)
+
     driver = generate_driver()
 
     udemy_schema = soupfy(
-        find_element_by_xpath(driver, course_url, UDEMY_DATA_XPATH)
+        find_element_by_xpath(
+            driver, course_url, UDEMY_COURSE_SCHEMA_XPATH, screenshot=True
+        )
     ).div["data-component-props"]
 
     driver.quit()

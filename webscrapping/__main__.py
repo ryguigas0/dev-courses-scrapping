@@ -1,10 +1,11 @@
 import logging
+from datetime import datetime
 
 logger = logging.getLogger("webscrapping")
 logger.setLevel(logging.INFO)
 
 # log file
-fh = logging.FileHandler("webscrapping.log", "w")
+fh = logging.FileHandler(f"webscrapping{datetime.now()}.log", "w")
 fh.setLevel(logging.INFO)
 
 # Console

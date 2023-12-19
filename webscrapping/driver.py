@@ -28,11 +28,11 @@ USER_AGENTS = [
         "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
     },
     # macOS safari
-    {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
-        "Sec-Ch-Ua-Platform": '"macOS"',
-        # "Sec-Ch-Ua": 'Sec-Ch-Ua: "Safari";v="15", " Not A Brand";v="99"',
-    },
+    # {
+    #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
+    #     "Sec-Ch-Ua-Platform": '"macOS"',
+    #     "Sec-Ch-Ua": 'Sec-Ch-Ua: "Safari";v="17", " Not A Brand";v="99"',
+    # },
     # Windows 7 chrome
     {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
@@ -67,11 +67,20 @@ def generate_driver_headers():
         # "X-Amzn-Trace-Id": "Root=1-658091af-0e89637646691d4a60504ea6",
     }
 
-    return curr_device_headers**default_headers
+    default_headers.update(curr_device_headers)
+
+    return default_headers
 
 
-def header_inteceptor(request):
-    request.headers.update(generate_driver_headers())
+def generate_header_interceptor():
+    headers = generate_driver_headers()
+
+    def header_inteceptor(request):
+        for header_key in dict.keys(headers):
+            del request.headers[header_key]
+            request.headers[header_key] = headers[header_key]
+
+    return header_inteceptor
 
 
 def gen_firefox_driver(proxy):
@@ -84,7 +93,8 @@ def gen_firefox_driver(proxy):
         }
     )
     options = webdriver.FirefoxOptions()
-    options.add_argument("-headless")
+    options.add_argument("--headless")
+    options.add_argument("--window-size=1366,768")
 
     service = Service(GeckoDriverManager().install())
 
@@ -97,6 +107,7 @@ def gen_chrome_driver(proxy):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
     options.add_argument("--proxy-server=%s" % proxy)
+    options.add_argument("--window-size=1366,768")
 
     return webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
@@ -106,7 +117,12 @@ def generate_driver():
     logger.info(f"Using proxy {proxy}")
 
     driver_generators = [gen_chrome_driver, gen_firefox_driver]
-    return random_from_list(driver_generators)(proxy)
+
+    driver = random_from_list(driver_generators)(proxy)
+
+    # driver.request_interceptor = generate_header_interceptor()
+
+    return driver
 
 
 def random_from_list(list):
