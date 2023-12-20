@@ -3,7 +3,7 @@ import logging
 
 logger = logging.getLogger("webscrapping")
 
-country_list = ["United States"]
+country_list = ["Brazil"]
 
 
 def check_proxy(proxy_dict):

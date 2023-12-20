@@ -16,7 +16,7 @@ def scrap_course_urls():
 
     logger.info(f"Scrapping topic '{t[2]}'...")
 
-    wait = random.randint(WAIT_TIME, WAIT_TIME + 30)
+    wait = random.randint(WAIT_TIME, WAIT_TIME + 100)
 
     logger.info(f"Waiting {wait}s before topic load...")
 

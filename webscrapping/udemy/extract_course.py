@@ -14,7 +14,7 @@ logger = logging.getLogger("webscrapping")
 def scrap_course_page(course_url):
     logger.info(f"Scrapping course {course_url}")
 
-    wait = random.randint(WAIT_TIME, WAIT_TIME + 30)
+    wait = random.randint(WAIT_TIME, WAIT_TIME + 100)
 
     logger.info(f"Waiting {wait}s before course load...")
 
