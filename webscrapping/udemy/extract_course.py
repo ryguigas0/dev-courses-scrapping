@@ -4,6 +4,7 @@ import logging
 import time
 import random
 from ..config import WAIT_TIME, UDEMY_COURSE_SCHEMA_XPATH
+from ..models.course import Course
 
 logger = logging.getLogger("webscrapping")
 
@@ -42,23 +43,21 @@ def scrap_course_page(course_url):
 
 
 def course_json2dict(udemy_json):
-    return {
-        "source_url": udemy_json["course"]["url"],
-        "image": udemy_json["introductionAsset"]["images"]["image_480x270"],
-        "name": udemy_json["course"]["title"],
-        "rating": udemy_json["course"]["rating"],
-        "complete_time_seconds": udemy_json["course"]["contentLengthVideo"],
-        "topic": parse_topics(udemy_json["topicMenu"]["breadcrumbs"]),
-        "languages": parse_languages(udemy_json["course"]["captionedLanguages"]),
-        "instructors": parse_instructors(
+    return Course(
+        name=udemy_json["course"]["title"],
+        source_url=udemy_json["course"]["url"],
+        image_url=udemy_json["introductionAsset"]["images"]["image_480x270"],
+        rating=udemy_json["course"]["rating"],
+        complete_time_seconds=udemy_json["course"]["contentLengthVideo"],
+        topic=parse_topics(udemy_json["topicMenu"]["breadcrumbs"]),
+        languages=parse_languages(udemy_json["course"]["captionedLanguages"]),
+        instructors=parse_instructors(
             udemy_json["course"]["instructors"]["instructors_info"]
         ),
-        "qty_students": udemy_json["course"]["numStudents"],
-        "qty_reviews": udemy_json["course"]["numReviews"],
-        "updated_at": udemy_json["course"]["lastUpdateDate"],
-        "price": parse_price(udemy_json),
-        # "price_discount": "",
-    }
+        qty_students=udemy_json["course"]["numStudents"],
+        qty_reviews=udemy_json["course"]["numReviews"],
+        price=parse_price(udemy_json),
+    )
 
 
 def parse_price(udemy_json):

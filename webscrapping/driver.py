@@ -1,7 +1,6 @@
 import time
 import random
 import logging
-from .proxy import proxy_list
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -86,19 +85,22 @@ def generate_header_interceptor():
 def gen_firefox_driver(proxy):
     logger.info("Using firefox webdriver")
 
-    proxy = Proxy(
-        {
-            "proxyType": ProxyType.MANUAL,
-            "httpProxy": proxy,
-        }
-    )
     options = webdriver.FirefoxOptions()
     options.add_argument("--headless")
     options.add_argument("--window-size=1366,768")
 
     service = Service(GeckoDriverManager().install())
 
-    return webdriver.Firefox(options=options, service=service, proxy=proxy)
+    if not proxy is None:
+        proxy = Proxy(
+            {
+                "proxyType": ProxyType.MANUAL,
+                "httpProxy": proxy,
+            }
+        )
+        return webdriver.Firefox(options=options, service=service, proxy=proxy)
+
+    return webdriver.Firefox(options=options, service=service)
 
 
 def gen_chrome_driver(proxy):
@@ -106,19 +108,25 @@ def gen_chrome_driver(proxy):
 
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
-    options.add_argument("--proxy-server=%s" % proxy)
+    if not proxy is None:
+        options.add_argument("--proxy-server=%s" % proxy)
     options.add_argument("--window-size=1366,768")
 
     return webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
-def generate_driver():
-    proxy = random_from_list(proxy_list)["URL"]
-    logger.info(f"Using proxy {proxy}")
+def generate_driver(has_proxy=True):
+    proxy_ip = None
+    if has_proxy:
+        from .proxy import proxy_list
+
+        proxy_ip = random_from_list(proxy_list)["URL"]
+
+    logger.info(f"Using proxy {proxy_ip}")
 
     driver_generators = [gen_chrome_driver, gen_firefox_driver]
 
-    driver = random_from_list(driver_generators)(proxy)
+    driver = random_from_list(driver_generators)(proxy_ip)
 
     # driver.request_interceptor = generate_header_interceptor()
 
@@ -165,7 +173,7 @@ def find_element(driver, url, by, select_str, single, load_wait, screenshot):
 
 def soupfy(web_element):
     logger.info("Soupfying content")
-    if web_element is list:
-        return list(map(lambda w: BeautifulSoup(w.get_attribute("outerHTML"), "lxml")))
+    if type(web_element) is list:
+        return list(map(lambda w: BeautifulSoup(w.get_attribute("outerHTML"), "lxml"), web_element))
     else:
         return BeautifulSoup(web_element.get_attribute("outerHTML"), "lxml")

@@ -242,5 +242,8 @@ UDEMY_COURSE_ANCHORS_SELECTOR = 'a[href^="/course/"]'
 
 UDEMY_COURSE_SCHEMA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 
+YOUTUBE_COURSES_XPATH = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div/ytd-item-section-renderer/div/ytd-video-renderer/div[1]"
+
+
 # Seconds before loading an page
 WAIT_TIME = 150
