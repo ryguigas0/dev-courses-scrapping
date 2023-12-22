@@ -7,6 +7,8 @@ Udemy and Youtube developer courses webscrapper and API
 
 ## Running the project
 
+DISCLAIMER: Udemy scrapping is current not working and not being used
+
 ### Requirements
 
 - Python 3.8 or greater
@@ -18,5 +20,6 @@ Udemy and Youtube developer courses webscrapper and API
 1. Clone the project
 2. Install the dependencies: `pip3 install -r requirements.txt`
 3. `python3 -m webscrapping`
+
 - Generated log file name: `webscrapping{timestamp}.log` (Ex.: `webscrapping2023-12-20 11:00:37.785045.log`
 - Page screenshot file name: `Screenshot{timestamp}.png` (Ex.: `Screenshot2023-12-20 11:11:51.529082.png`)

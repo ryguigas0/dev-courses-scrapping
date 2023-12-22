@@ -11,8 +11,6 @@ def scrap_courses():
 
     scrapped_courses = {}
 
-    t = UDEMY_TOPICS[0]
-
     for t in UDEMY_TOPICS:
         logger.info(f"Scrapping topic '{t[2]}'...")
 
