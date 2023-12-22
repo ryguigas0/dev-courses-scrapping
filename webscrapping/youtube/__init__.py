@@ -7,7 +7,7 @@ logger = logging.getLogger("webscrapping")
 
 
 def scrap():
-    logger.info("STARTED YOUTUBE SCRAPPING")
+    logger.info("STARTED YT SCRAPPING")
 
     scrapped_courses = scrap_courses()
     courses = []
@@ -16,6 +16,6 @@ def scrap():
 
         courses.extend(list(map(lambda c: scrap_course(c, lang, topic_key), courses)))
 
-    logger.info("FINISHED YOUTUBE SCRAPPING")
+    logger.info("FINISHED YT SCRAPPING")
 
     return courses

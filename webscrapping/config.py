@@ -242,9 +242,15 @@ UDEMY_COURSE_ANCHORS_SELECTOR = 'a[href^="/course/"]'
 
 UDEMY_COURSE_SCHEMA_XPATH = '//*[@id="br"]/div[1]/div[2]/div/div'
 
-YOUTUBE_COURSES_XPATH = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div/ytd-item-section-renderer/div/ytd-video-renderer/div[1]"
+YT_COURSES_XPATH = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div/ytd-item-section-renderer/div/ytd-video-renderer/div[1]"
 
-YOUTUBE_ROOT_URL = "https://www.youtube.com"
+YT_ROOT_URL = "https://www.youtube.com"
+
+YT_COMMENT_XPATH = '//*[@id="count"]/yt-formatted-string/span[1]'
+
+YT_LIKES_PATH = '//*[@id="top-level-buttons-computed"]/segmented-like-dislike-button-view-model/yt-smartimation/div/div/like-button-view-model/toggle-button-view-model/button'
+
+YT_VIEWS_PATH = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[2]/ytd-watch-metadata/div/div[4]/div[1]/div/ytd-watch-info-text/tp-yt-paper-tooltip/div"
 
 # Seconds before loading an page
 WAIT_TIME = 150

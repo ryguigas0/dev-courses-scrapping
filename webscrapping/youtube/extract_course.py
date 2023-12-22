@@ -1,29 +1,61 @@
 from ..models.course import Course
-from ..config import YOUTUBE_ROOT_URL
+from ..config import YT_ROOT_URL, YT_COMMENT_XPATH, YT_LIKES_PATH, YT_VIEWS_PATH
+from ..driver import generate_driver, find_element_by_xpath
+import re
 
 
 def scrap_course(course_soup, lang, topic):
-    qty_students = parse_student_qty(course_soup)
+    source_url = parse_source_url(course_soup)
+    (rating, qty_students, qty_reviews) = calc_rating(source_url)
 
     course = Course(
         name=parse_course_name(course_soup),
-        source_url=parse_source_url(course_soup),
+        source_url=source_url,
         image_url=parse_img_url(course_soup),
         complete_time_seconds=parse_time(course_soup),
         topic=topic,
         languages=[lang],
         instructors=parse_instructors(course_soup),
-        qty_students=qty_students
+        qty_students=qty_students,
+        qty_reviews=qty_reviews,
+        rating=rating,
     )
 
     return course
+
+
+def calc_rating(source_url):
+    driver = generate_driver(has_proxy=False)
+
+    # qty_review = int(
+    #     find_element_by_xpath(driver, YT_COMMENT_XPATH, url=source_url).get_attribute(
+    #         "innerText"
+    #     )
+    # )
+
+    views_tooltip = find_element_by_xpath(
+        driver, YT_VIEWS_PATH, url=source_url, screenshot=True
+    ).get_attribute("innerText")
+
+    qty_students = int(
+        re.findall("(\d{1,3}(?:\,\d{3})*)", views_tooltip)[0].replace(",", "")
+    )
+
+    likes_msg = find_element_by_xpath(driver, YT_LIKES_PATH).get_attribute("aria-label")
+
+    qty_review = int(re.findall("(\d{1,3}(?:\,\d{3})*)", likes_msg)[0].replace(",", ""))
+
+    rating = qty_review / qty_students * 5
+
+    return (rating, qty_students, qty_review)
+
 
 def parse_instructors(course_soup):
     return [course_soup.select("#text > a")[0].get_text()]
 
 
 def parse_source_url(course_soup):
-    return YOUTUBE_ROOT_URL + course_soup.select("#video-title")[0].get("href")
+    return YT_ROOT_URL + course_soup.select("#video-title")[0].get("href")
 
 
 def parse_course_name(course_soup):

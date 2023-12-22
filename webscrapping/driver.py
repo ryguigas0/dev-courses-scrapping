@@ -85,6 +85,9 @@ def generate_header_interceptor():
 def gen_firefox_driver(proxy):
     logger.info("Using firefox webdriver")
 
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("media.volume_scale", "0.0")
+
     options = webdriver.FirefoxOptions()
     options.add_argument("--headless")
     options.add_argument("--window-size=1366,768")
@@ -98,9 +101,11 @@ def gen_firefox_driver(proxy):
                 "httpProxy": proxy,
             }
         )
-        return webdriver.Firefox(options=options, service=service, proxy=proxy)
+        return webdriver.Firefox(
+            options=options, service=service, proxy=proxy, firefox_profile=profile
+        )
 
-    return webdriver.Firefox(options=options, service=service)
+    return webdriver.Firefox(options=options, service=service, firefox_profile=profile)
 
 
 def gen_chrome_driver(proxy):
@@ -111,6 +116,7 @@ def gen_chrome_driver(proxy):
     if not proxy is None:
         options.add_argument("--proxy-server=%s" % proxy)
     options.add_argument("--window-size=1366,768")
+    options.add_argument("--mute-audio")
 
     return webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
