@@ -9,6 +9,8 @@ logger = logging.getLogger("webscrapping")
 def scrap_courses():
     random.shuffle(UDEMY_TOPICS)
 
+    scrapped_courses = {}
+
     t = UDEMY_TOPICS[0]
 
     logger.info(f"Scrapping topic '{t[2]}'...")
@@ -19,16 +21,24 @@ def scrap_courses():
 
     url = f"https://www.youtube.com/results?search_query={topic_query}&sp=EgIYAg%253D%253D"
 
+    language = find_element_by_xpath(
+        driver=driver,
+        url=url,
+        xpath="/html",
+    ).get_attribute("lang")
+
     courses = soupfy(
         find_element_by_xpath(
-            driver, url, YOUTUBE_COURSES_XPATH, single=False, screenshot=True
+            driver, YOUTUBE_COURSES_XPATH, single=False, load_wait=0, screenshot=True
         )
     )
 
     logger.info(f"Yielded {len(courses)} courses!")
 
+    scrapped_courses[t[2]] = (language, courses)
+
     driver.quit()
 
     logger.info("Finished courses urls")
 
-    return courses
+    return scrapped_courses

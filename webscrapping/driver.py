@@ -139,7 +139,7 @@ def random_from_list(list):
 
 
 def find_element_by_selector(
-    driver, url, selector, single=True, load_wait=3, screenshot=False
+    driver, selector, url=None, single=True, load_wait=3, screenshot=False
 ):
     return find_element(
         driver, url, By.CSS_SELECTOR, selector, single, load_wait, screenshot
@@ -147,17 +147,18 @@ def find_element_by_selector(
 
 
 def find_element_by_xpath(
-    driver, url, xpath, single=True, load_wait=3, screenshot=False
+    driver, xpath, url=None, single=True, load_wait=3, screenshot=False
 ):
     return find_element(driver, url, By.XPATH, xpath, single, load_wait, screenshot)
 
 
 def find_element(driver, url, by, select_str, single, load_wait, screenshot):
-    driver.get(url)
+    if not url is None:
+        driver.get(url)
 
-    logger.info(f"Loading page...")
+        logger.info(f"Loading page...")
 
-    time.sleep(load_wait)
+        time.sleep(load_wait)
 
     if screenshot:
         if driver.get_screenshot_as_file(f"Screenshot{datetime.now()}.png"):
@@ -174,6 +175,11 @@ def find_element(driver, url, by, select_str, single, load_wait, screenshot):
 def soupfy(web_element):
     logger.info("Soupfying content")
     if type(web_element) is list:
-        return list(map(lambda w: BeautifulSoup(w.get_attribute("outerHTML"), "lxml"), web_element))
+        return list(
+            map(
+                lambda w: BeautifulSoup(w.get_attribute("outerHTML"), "lxml"),
+                web_element,
+            )
+        )
     else:
         return BeautifulSoup(web_element.get_attribute("outerHTML"), "lxml")
