@@ -15,6 +15,7 @@ class Course:
         instructors: List[str],
         qty_students: int,
         qty_reviews: int,
+        updated_at: datetime.date,
         price: float = 0,
     ):
         self.name = name
@@ -28,4 +29,5 @@ class Course:
         self.qty_students = qty_students
         self.qty_reviews = qty_reviews
         self.price = price
+        self.updated_at = updated_at
         self.scraped_at = datetime.now()

@@ -1,6 +1,7 @@
 from ..models.course import Course
 from ..config import YT_ROOT_URL, YT_COMMENT_XPATH, YT_LIKES_PATH, YT_VIEWS_PATH
 from ..driver import generate_driver, find_element_by_xpath
+from datetime import datetime, timedelta
 import re
 
 
@@ -19,9 +20,28 @@ def scrap_course(course_soup, lang, topic):
         qty_students=qty_students,
         qty_reviews=qty_reviews,
         rating=rating,
+        updated_at=parse_last_update_date(course_soup),
     )
 
     return course
+
+
+def parse_last_update_date(course_soup):
+    label = course_soup.select("#video-title > yt-formatted-string")[0]["aria-label"]
+
+    (str_num, unit) = re.findall(r"(\d+) (minute|hour|day|week|month|year)", label)[0]
+
+    num = int(str_num)
+
+    kwargs_timedelta = {}
+    if unit == "year":
+        kwargs_timedelta["days"] = num * 365
+    elif unit == "month":
+        kwargs_timedelta["days"] = num * 30
+    else:
+        kwargs_timedelta[unit + "s"] = num
+
+    return datetime.now() - timedelta(**kwargs_timedelta)
 
 
 def calc_rating(source_url):
@@ -34,7 +54,7 @@ def calc_rating(source_url):
     # )
 
     views_tooltip = find_element_by_xpath(
-        driver, YT_VIEWS_PATH, url=source_url, screenshot=True
+        driver, YT_VIEWS_PATH, url=source_url
     ).get_attribute("innerText")
 
     qty_students = int(
