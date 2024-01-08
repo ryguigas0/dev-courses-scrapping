@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from .models import create_database
+from ..models import create_database
 
 # DATABASE SETUP
 create_database()

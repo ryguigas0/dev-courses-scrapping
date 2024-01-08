@@ -4,7 +4,7 @@ import logging
 import time
 import random
 from ..config import WAIT_TIME, UDEMY_COURSE_SCHEMA_XPATH
-from ..models.course import Course
+from ...models import Course
 
 logger = logging.getLogger("webscrapping")
 

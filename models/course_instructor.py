@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column, ForeignKey
-from webscrapping.models import Base
+from . import Base
 
 courses_instructors = Table(
     "courses_instructors",

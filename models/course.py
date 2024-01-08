@@ -2,9 +2,9 @@ from datetime import datetime
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import select, UniqueConstraint
-from webscrapping.models import Base, create_session
-from webscrapping.models.course_language import courses_languages
-from webscrapping.models.course_instructor import courses_instructors
+from . import Base, create_session
+from .course_language import courses_languages
+from .course_instructor import courses_instructors
 
 
 class Course(Base):
@@ -29,30 +29,29 @@ class Course(Base):
     )
     __table_args__ = (UniqueConstraint("source_url", sqlite_on_conflict="REPLACE"),)
 
+    def to_view(self, level=1):
+        course = {
+            "id": self.id,
+            "name": self.name,
+            "source_url": self.source_url,
+            "image_url": self.image_url,
+            "rating": self.rating,
+            "complete_time_seconds": self.complete_time_seconds,
+            "topic": self.topic,
+            "qty_students": self.qty_students,
+            "qty_reviews": self.qty_reviews,
+            "updated_at": self.updated_at,
+            "scraped_at": self.scraped_at,
+            "price": self.price,
+        }
 
-def insert_courses(courses):
-    Session = create_session()
-    with Session.begin() as session:
-        session.add_all(courses)
-        session.commit()
+        if level > 0:
+            course["languages"] = list(
+                map(lambda l: l.to_view(level - 1), self.languages)
+            )
 
+            course["instructors"] = list(
+                map(lambda i: i.to_view(level - 1), self.instructors)
+            )
 
-def insert_course(course):
-    Session = create_session()
-    with Session.begin() as session:
-        session.add(course)
-        session.commit()
-
-
-def list_courses():
-    Session = create_session()
-    with Session.begin() as session:
-        stmt = select(Course)
-        return session.scalars(stmt).all()
-
-
-def get_course(id):
-    Session = create_session()
-    with Session.begin() as session:
-        stmt = select(Course).where(Course.id == id)
-        return session.scalars(stmt).one()
+        return course

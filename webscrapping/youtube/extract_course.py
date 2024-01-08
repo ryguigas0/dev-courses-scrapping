@@ -1,6 +1,6 @@
-from ..models.course import Course, insert_course
-from ..models.language import Language
-from ..models.instructor import Instructor
+from ...models.course import Course, insert_course
+from ...models.language import Language
+from ...models.instructor import Instructor
 from ..config import YT_ROOT_URL, YT_COMMENT_XPATH, YT_LIKES_PATH, YT_VIEWS_PATH
 from ..driver import generate_driver, find_element_by_xpath
 from datetime import datetime, timedelta
