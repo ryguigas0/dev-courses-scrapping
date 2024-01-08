@@ -1,3 +1,45 @@
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+
+# moved to initialize on config since firefox from webdriver_manager uses github API to setup and we dont need to get rate limited
+FIREFOX_DRIVER = GeckoDriverManager().install()
+
+CHROME_DRIVER = ChromeDriverManager().install()
+
+USER_AGENTS = [
+    # windows 10 edge
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Microsoft Edge";v="120"',
+    },
+    # chromeOS chrome
+    {
+        "User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36",
+        "Sec-Ch-Ua-Platform": '"Chrome OS"',
+        "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+    },
+    # macOS safari
+    # {
+    #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
+    #     "Sec-Ch-Ua-Platform": '"macOS"',
+    #     "Sec-Ch-Ua": 'Sec-Ch-Ua: "Safari";v="17", " Not A Brand";v="99"',
+    # },
+    # Windows 7 chrome
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Sec-Ch-Ua": '"Google Chrome";v="109", "Chromium";v="109", ";Not A Brand";v="8"',
+    },
+    # Linux firefox
+    {
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0",
+        "Sec-Ch-Ua-Platform": '"Linux"',
+        # "Sec-Ch-Ua": '"Google Chrome";v="120", "Chromium";v="120", ";Not A Brand";v="8"',
+    },
+]
+
+
 # Udemy does not load categories menu for webscrapping
 # 0 => URL, 1 => TOPIC PT-BR, 2 => TOPIC EN
 UDEMY_TOPICS = [

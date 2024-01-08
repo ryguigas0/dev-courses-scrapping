@@ -1,29 +1,42 @@
-from ..models.course import Course
+from ..models.course import Course, insert_course
+from ..models.language import Language
+from ..models.instructor import Instructor
 from ..config import YT_ROOT_URL, YT_COMMENT_XPATH, YT_LIKES_PATH, YT_VIEWS_PATH
 from ..driver import generate_driver, find_element_by_xpath
 from datetime import datetime, timedelta
 import re
+import logging
+
+logger = logging.getLogger("webscrapping")
 
 
 def scrap_course(course_soup, lang, topic):
-    source_url = parse_source_url(course_soup)
-    (rating, qty_students, qty_reviews) = calc_rating(source_url)
+    try:
+        source_url = parse_source_url(course_soup)
+        (rating, qty_students, qty_reviews) = calc_rating(source_url)
 
-    course = Course(
-        name=parse_course_name(course_soup),
-        source_url=source_url,
-        image_url=parse_img_url(course_soup),
-        complete_time_seconds=parse_time(course_soup),
-        topic=topic,
-        languages=[lang],
-        instructors=parse_instructors(course_soup),
-        qty_students=qty_students,
-        qty_reviews=qty_reviews,
-        rating=rating,
-        updated_at=parse_last_update_date(course_soup),
-    )
+        course = Course(
+            name=parse_course_name(course_soup),
+            source_url=source_url,
+            image_url=parse_img_url(course_soup),
+            complete_time_seconds=parse_time(course_soup),
+            topic=topic,
+            languages=parse_language(lang),
+            instructors=parse_instructors(course_soup),
+            qty_students=qty_students,
+            qty_reviews=qty_reviews,
+            rating=rating,
+            updated_at=parse_last_update_date(course_soup),
+        )
 
-    return course
+        return insert_course(course)
+    except Exception as e:
+        logger.error(f"{str(type(e))} {str(e)}")
+        return
+
+
+def parse_language(lang):
+    return [Language(name=lang)]
 
 
 def parse_last_update_date(course_soup):
@@ -71,7 +84,8 @@ def calc_rating(source_url):
 
 
 def parse_instructors(course_soup):
-    return [course_soup.select("#text > a")[0].get_text()]
+    name = course_soup.select("#text > a")[0].get_text()
+    return [Instructor(name=name)]
 
 
 def parse_source_url(course_soup):
@@ -87,18 +101,15 @@ def parse_img_url(course_soup):
 
 
 def parse_time(course_soup):
-    time_split = (
-        course_soup.find(
-            "span",
-            {
-                "id": "text",
-                "class": "style-scope ytd-thumbnail-overlay-time-status-renderer",
-            },
-        )
-        .get_text()
-        .strip()
-        .split(":")
+    time_html = course_soup.find(
+        "span",
+        {
+            "id": "text",
+            "class": "style-scope ytd-thumbnail-overlay-time-status-renderer",
+        },
     )
+
+    time_split = time_html.get_text().strip().split(":")
 
     mult = 1
 

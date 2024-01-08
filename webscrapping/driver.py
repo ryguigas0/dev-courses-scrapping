@@ -7,44 +7,10 @@ from bs4 import BeautifulSoup
 from seleniumwire import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
+from .config import FIREFOX_DRIVER, CHROME_DRIVER, USER_AGENTS
 
 
 logger = logging.getLogger("webscrapping")
-
-USER_AGENTS = [
-    # windows 10 edge
-    {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
-        "Sec-Ch-Ua-Platform": '"Windows"',
-        "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Microsoft Edge";v="120"',
-    },
-    # chromeOS chrome
-    {
-        "User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36",
-        "Sec-Ch-Ua-Platform": '"Chrome OS"',
-        "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
-    },
-    # macOS safari
-    # {
-    #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
-    #     "Sec-Ch-Ua-Platform": '"macOS"',
-    #     "Sec-Ch-Ua": 'Sec-Ch-Ua: "Safari";v="17", " Not A Brand";v="99"',
-    # },
-    # Windows 7 chrome
-    {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
-        "Sec-Ch-Ua-Platform": '"Windows"',
-        "Sec-Ch-Ua": '"Google Chrome";v="109", "Chromium";v="109", ";Not A Brand";v="8"',
-    },
-    # Linux firefox
-    {
-        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0",
-        "Sec-Ch-Ua-Platform": '"Linux"',
-        # "Sec-Ch-Ua": '"Google Chrome";v="120", "Chromium";v="120", ";Not A Brand";v="8"',
-    },
-]
 
 
 def generate_driver_headers():
@@ -71,6 +37,7 @@ def generate_driver_headers():
     return default_headers
 
 
+# DEPRECATED, no need to forge headers
 def generate_header_interceptor():
     headers = generate_driver_headers()
 
@@ -92,7 +59,7 @@ def gen_firefox_driver(proxy):
     options.add_argument("--headless")
     options.add_argument("--window-size=1366,768")
 
-    service = Service(GeckoDriverManager().install())
+    service = Service(FIREFOX_DRIVER)
 
     if not proxy is None:
         proxy = Proxy(
@@ -118,7 +85,7 @@ def gen_chrome_driver(proxy):
     options.add_argument("--window-size=1366,768")
     options.add_argument("--mute-audio")
 
-    return webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    return webdriver.Chrome(CHROME_DRIVER, options=options)
 
 
 def generate_driver(has_proxy=True):

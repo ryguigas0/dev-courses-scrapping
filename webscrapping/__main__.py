@@ -1,12 +1,17 @@
 import logging
-import json
 from datetime import datetime
+from .models import create_database
+
+# DATABASE SETUP
+create_database()
+
+# LOGGER SETUP
 
 logger = logging.getLogger("webscrapping")
 logger.setLevel(logging.INFO)
 
 # log file
-fh = logging.FileHandler(f"webscrapping{datetime.now()}.log", "w")
+fh = logging.FileHandler(f"webscrapping.log", "a")
 fh.setLevel(logging.INFO)
 
 # Console
@@ -22,12 +27,7 @@ logger.addHandler(fh)
 from .udemy import scrap as udemy_scrapping
 from .youtube import scrap as youtube_scrapping
 
-scrappings = [youtube_scrapping, udemy_scrapping]
-courses = []
+scrappings = [youtube_scrapping]
 
 for scrap in scrappings:
-    courses.extend(scrap())
-
-# Backup json for development
-with open(f"webscrapping_output{datetime.now()}.json", "w") as backup:
-    json.dump(courses, backup, sort_keys=True, indent=4)
+    scrap()

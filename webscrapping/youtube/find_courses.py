@@ -10,8 +10,10 @@ def scrap_courses():
     random.shuffle(UDEMY_TOPICS)
 
     scrapped_courses = {}
+    
+    topics = UDEMY_TOPICS[0:1]
 
-    for t in UDEMY_TOPICS:
+    for t in topics:
         logger.info(f"Scrapping topic '{t[2]}'...")
 
         driver = generate_driver(has_proxy=False)
